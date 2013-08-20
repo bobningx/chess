@@ -1,54 +1,50 @@
-/*! Ò»Ò¶¹ÂÖÛ | qq:28701884 | »¶Ó­Ö¸½Ì */
-
 var com = com||{};
 
 com.init = function (stype){
 	
 	com.nowStype= stype || com.getCookie("stype") ||"stype1";
 	var stype = com.stype[com.nowStype];
-	com.width			=	stype.width;		//»­²¼¿í¶È
-	com.height			=	stype.height; 		//»­²¼¸ß¶È
-	com.spaceX			=	stype.spaceX;		//×ÅµãX¿ç¶È
-	com.spaceY			=	stype.spaceY;		//×ÅµãY¿ç¶È
-	com.pointStartX		=	stype.pointStartX;	//µÚÒ»¸ö×ÅµãX×ø±ê;
-	com.pointStartY		=	stype.pointStartY;	//µÚÒ»¸ö×ÅµãY×ø±ê;
-	com.page			=	stype.page;			//Í¼Æ¬Ä¿Â¼
+	com.width			=	stype.width;		
+	com.height			=	stype.height; 		
+	com.spaceX			=	stype.spaceX;		
+	com.spaceY			=	stype.spaceY;		
+	com.pointStartX		=	stype.pointStartX;	
+	com.pointStartY		=	stype.pointStartY;	
+	com.page			=	stype.page;		
 	
 	com.get("box").style.width = com.width+130+"px";
 	
-	com.canvas			=	document.getElementById("chess"); //»­²¼
+	com.canvas			=	document.getElementById("chess"); 
 	com.ct				=	com.canvas.getContext("2d") ; 
 	com.canvas.width	=	com.width;
 	com.canvas.height	=	com.height;
 	
 	com.childList		=	com.childList||[];
 	
-	com.loadImages(com.page);		//ÔØÈëÍ¼Æ¬/Í¼Æ¬Ä¿Â¼
+	com.loadImages(com.page);		
 	//z(com.initMap.join())
 }
 
-//ÑùÊ½
 com.stype = {
 	stype1:{
-		width:325,		//»­²¼¿í¶È
-		height:402, 		//»­²¼¸ß¶È
-		spaceX:35,		//×ÅµãX¿ç¶È
-		spaceY:36,		//×ÅµãY¿ç¶È
-		pointStartX:5,		//µÚÒ»¸ö×ÅµãX×ø±ê;
-		pointStartY:19,		//µÚÒ»¸ö×ÅµãY×ø±ê;
-		page:"stype_1"	//Í¼Æ¬Ä¿Â¼
+		width:325,		
+		height:402, 	
+		spaceX:35,		
+		spaceY:36,		
+		pointStartX:5,	
+		pointStartY:19,	
+		page:"stype_1"
 	},
 	stype2:{
-		width:530,		//»­²¼¿í¶È
-		height:567, 		//»­²¼¸ß¶È
-		spaceX:57,		//×ÅµãX¿ç¶È
-		spaceY:57,		//×ÅµãY¿ç¶È
-		pointStartX:-2,		//µÚÒ»¸ö×ÅµãX×ø±ê;
-		pointStartY:0,		//µÚÒ»¸ö×ÅµãY×ø±ê;
-		page:"stype_2"	//Í¼Æ¬Ä¿Â¼
+		width:530,		
+		height:567, 	
+		spaceX:57,		
+		spaceY:57,		
+		pointStartX:-2,	
+		pointStartY:0,	
+		page:"stype_2"
 	}		
 }
-//»ñÈ¡ID
 com.get = function (id){
 	return document.getElementById(id)
 }
@@ -60,13 +56,13 @@ window.onload = function(){
 	com.pane.isShow=false;
 	
 	com.childList=[com.bg,com.dot,com.pane];	
-	com.mans	 ={};		//Æå×Ó¼¯ºÏ
-	com.createMans(com.initMap)		//Éú³ÉÆå×Ó	
+	com.mans	 ={};		//pieces collection
+	com.createMans(com.initMap)		
 	com.bg.show();
 	com.get("bnBox").style.display = "block";
 	//play.init();
 	com.get("billBn").addEventListener("click", function(e) {
-		if (confirm("ÊÇ·ñ½áÊø¶Ô¾Ö£¬¿ªÊ¼Æå¾ÖÑÐ¾¿£¿")){
+		if (confirm("terminate game and review ?")){
 			com.init();
 			com.get("chessRight").style.display = "block";
 			com.get("moveInfo").style.display = "none";
@@ -74,7 +70,7 @@ window.onload = function(){
 		}
 	})
 	com.get("superPlay").addEventListener("click", function(e) {
-		if (confirm("È·ÈÏ¿ªÊ¼´óÊ¦¼¶¶ÔÞÄ£¿")){
+		if (confirm("start a master level?")){
 			play.isPlay=true ;	
 			com.get("chessRight").style.display = "none";
 			com.get("moveInfo").style.display = "block";
@@ -84,7 +80,7 @@ window.onload = function(){
 		}
 	})
 	com.get("tyroPlay").addEventListener("click", function(e) {
-		if (confirm("È·ÈÏ¿ªÊ¼ÐÂÊÖ¼¶¶ÔÞÄ£¿")){
+		if (confirm("start a new player level?")){
 			play.isPlay=true ;	
 			com.get("chessRight").style.display = "none";
 			com.get("moveInfo").style.display = "block";
@@ -116,31 +112,28 @@ window.onload = function(){
 		com.gambit=data.split(" ");
 		AI.historyBill = com.gambit;
 	})
+/*
 	com.getData("js/store.js",
 		function(data){
 		com.store=data.split(" ");
 	})
+*/
 }
 
-//ÔØÈëÍ¼Æ¬
 com.loadImages = function(stype){
 	
-	//»æÖÆÆåÅÌ
 	com.bgImg = new Image();
 	com.bgImg.src  = "img/"+stype+"/bg.png";
 	
-	//ÌáÊ¾µã
 	com.dotImg = new Image();
 	com.dotImg.src  = "img/"+stype+"/dot.png";
 	
-	//Æå×Ó
 	for (var i in com.args){
 		com[i] = {};
 		com[i].img = new Image();
 		com[i].img.src = "img/"+stype+"/"+ com.args[i].img +".png";
 	}
 	
-	//Æå×ÓÍâ¿ò
 	com.paneImg = new Image();
 	com.paneImg.src  = "img/"+stype+"/r_box.png";
 	
@@ -148,7 +141,6 @@ com.loadImages = function(stype){
 	
 }
 
-//ÏÔÊ¾ÁÐ±í
 com.show = function (){
 	com.ct.clearRect(0, 0, com.width, com.height);  
 	for (var i=0; i<com.childList.length ; i++){
@@ -156,7 +148,6 @@ com.show = function (){
 	}
 }
 
-//ÏÔÊ¾ÒÆ¶¯µÄÆå×ÓÍâ¿ò
 com.showPane  = function (x,y,newX,newY){
 	com.pane.isShow=true;
 	com.pane.x= x ;
@@ -165,7 +156,6 @@ com.showPane  = function (x,y,newX,newY){
 	com.pane.newY= newY ;
 }
 
-//Éú³ÉmapÀïÃæÓÐµÄÆå×Ó
 com.createMans = function(map){
 	for (var i=0; i<map.length; i++){
 		for (var n=0; n<map[i].length; n++){
@@ -193,10 +183,8 @@ com.alert = function (obj,f,n){
 	//return alert(arr.join(n||"\n\r"));
 }
 
-//com.alertµÄ¼òÐ´£¬¿¼ÂÇz±äÁ¿Ãû×î²»³£ÓÃ
 var z = com.alert;
 
-//»ñÈ¡ÔªËØ¾àÀëÒ³Ãæ×ó²àµÄ¾àÀë
 com.getDomXY = function (dom){
 	var left = dom.offsetLeft;
 	var top = dom.offsetTop;
@@ -209,7 +197,6 @@ com.getDomXY = function (dom){
 	return {x:left,y:top};
 }
 
-//»ñµÃcookie
 com.getCookie = function(name){
 	if (document.cookie.length>0){
 		start=document.cookie.indexOf(name + "=")
@@ -222,7 +209,6 @@ com.getCookie = function(name){
 	}
 	return false;
 }
-//¶þÎ¬Êý×é¿ËÂ¡
 com.arr2Clone = function (arr){
 	var newArr=[];
 	for (var i=0; i<arr.length ; i++){	
@@ -231,7 +217,6 @@ com.arr2Clone = function (arr){
 	return newArr;
 }
 
-//ajaxÔØÈëÊý¾Ý
 com.getData = function (url,fun){
 	var XMLHttpRequestObject=false;
 	if(window.XMLHttpRequest){
@@ -252,7 +237,6 @@ com.getData = function (url,fun){
 	}
 }
 
-//°Ñ×ø±êÉú³É×Å·¨
 com.createMove = function (map,x,y,newX,newY){
 	var h="";
 	var man = com.mans[map[y][x]];
@@ -260,46 +244,46 @@ com.createMove = function (map,x,y,newX,newY){
 	map[newY][newX] = map[y][x];
 	delete map[y][x];
 	if (man.my===1){
-		var mumTo=["Ò»","¶þ","Èý","ËÄ","Îå","Áù","Æß","°Ë","¾Å","Ê®"];	
+		var mumTo=["¿","¿","¿","¿","¿","¿","¿","¿","¿","¿"];	
 		newX=8-newX;
 		h+= mumTo[8-x];
 		if (newY > y) {
-			h+= "ÍË";
+			h+= "¿";
 			if (man.pater == "m" || man.pater == "s" || man.pater == "x"){
 				h+= mumTo[newX];
 			}else {
 				h+= mumTo[newY - y -1];
 			}
 		}else if (newY < y) {
-			h+= "½ø";
+			h+= "¿";
 			if (man.pater == "m" || man.pater == "s" || man.pater == "x"){
 				h+= mumTo[newX];
 			}else {
 				h+= mumTo[y - newY -1];
 			}
 		}else {
-			h+= "Æ½";
+			h+= "¿";
 			h+= mumTo[newX];
 		}
 	}else{
-		var mumTo=["£±","£²","£³","£´","£µ","£¶","£·","£¸","£¹","10"];
+		var mumTo=["¿","¿","¿","¿","¿","¿","¿","¿","¿","10"];
 		h+= mumTo[x];
 		if (newY > y) {
-			h+= "½ø";
+			h+= "¿";
 			if (man.pater == "M" || man.pater == "S" || man.pater == "X"){
 				h+= mumTo[newX];
 			}else {
 				h+= mumTo[newY - y-1];
 			}
 		}else if (newY < y) {
-			h+= "ÍË";
+			h+= "¿";
 			if (man.pater == "M" || man.pater == "S" || man.pater == "X"){
 				h+= mumTo[newX];
 			}else {
 				h+= mumTo[y - newY-1];
 			}
 		}else {
-			h+= "Æ½";
+			h+= "¿";
 			h+= mumTo[newX];
 		}
 	}
@@ -365,12 +349,11 @@ com.keys = {
 	"Z0":"Z","Z1":"Z","Z2":"Z","Z3":"Z","Z4":"Z","Z5":"Z",
 }
 
-//Æå×ÓÄÜ×ßµÄ×Åµã
 com.bylaw ={}
-//³µ
+//c
 com.bylaw.c = function (x,y,map,my){
 	var d=[];
-	//×ó²à¼ìË÷
+	//left 
 	for (var i=x-1; i>= 0; i--){
 		if (map[y][i]) {
 			if (com.mans[map[y][i]].my!=my) d.push([i,y]);
@@ -379,7 +362,7 @@ com.bylaw.c = function (x,y,map,my){
 			d.push([i,y])	
 		}
 	}
-	//ÓÒ²à¼ìË÷
+	//right
 	for (var i=x+1; i <= 8; i++){
 		if (map[y][i]) {
 			if (com.mans[map[y][i]].my!=my) d.push([i,y]);
@@ -388,7 +371,7 @@ com.bylaw.c = function (x,y,map,my){
 			d.push([i,y])	
 		}
 	}
-	//ÉÏ¼ìË÷
+	//up
 	for (var i = y-1 ; i >= 0; i--){
 		if (map[i][x]) {
 			if (com.mans[map[i][x]].my!=my) d.push([x,i]);
@@ -397,7 +380,7 @@ com.bylaw.c = function (x,y,map,my){
 			d.push([x,i])	
 		}
 	}
-	//ÏÂ¼ìË÷
+	//down
 	for (var i = y+1 ; i<= 9; i++){
 		if (map[i][x]) {
 			if (com.mans[map[i][x]].my!=my) d.push([x,i]);
@@ -409,81 +392,81 @@ com.bylaw.c = function (x,y,map,my){
 	return d;
 }
 
-//Âí
+//m
 com.bylaw.m = function (x,y,map,my){
 	var d=[];
-		//1µã
+		//1
 		if ( y-2>= 0 && x+1<= 8 && !play.map[y-1][x] &&(!com.mans[map[y-2][x+1]] || com.mans[map[y-2][x+1]].my!=my)) d.push([x+1,y-2]);
-		//2µã
+		//2
 		if ( y-1>= 0 && x+2<= 8 && !play.map[y][x+1] &&(!com.mans[map[y-1][x+2]] || com.mans[map[y-1][x+2]].my!=my)) d.push([x+2,y-1]);
-		//4µã
+		//4
 		if ( y+1<= 9 && x+2<= 8 && !play.map[y][x+1] &&(!com.mans[map[y+1][x+2]] || com.mans[map[y+1][x+2]].my!=my)) d.push([x+2,y+1]);
-		//5µã
+		//5
 		if ( y+2<= 9 && x+1<= 8 && !play.map[y+1][x] &&(!com.mans[map[y+2][x+1]] || com.mans[map[y+2][x+1]].my!=my)) d.push([x+1,y+2]);
-		//7µã
+		//7
 		if ( y+2<= 9 && x-1>= 0 && !play.map[y+1][x] &&(!com.mans[map[y+2][x-1]] || com.mans[map[y+2][x-1]].my!=my)) d.push([x-1,y+2]);
-		//8µã
+		//8
 		if ( y+1<= 9 && x-2>= 0 && !play.map[y][x-1] &&(!com.mans[map[y+1][x-2]] || com.mans[map[y+1][x-2]].my!=my)) d.push([x-2,y+1]);
-		//10µã
+		//10
 		if ( y-1>= 0 && x-2>= 0 && !play.map[y][x-1] &&(!com.mans[map[y-1][x-2]] || com.mans[map[y-1][x-2]].my!=my)) d.push([x-2,y-1]);
-		//11µã
+		//11
 		if ( y-2>= 0 && x-1>= 0 && !play.map[y-1][x] &&(!com.mans[map[y-2][x-1]] || com.mans[map[y-2][x-1]].my!=my)) d.push([x-1,y-2]);
 
 	return d;
 }
 
-//Ïà
+//x
 com.bylaw.x = function (x,y,map,my){
 	var d=[];
-	if (my===1){ //ºì·½
-		//4µã°ë
+	if (my===1){ //red
+		//4.5
 		if ( y+2<= 9 && x+2<= 8 && !play.map[y+1][x+1] && (!com.mans[map[y+2][x+2]] || com.mans[map[y+2][x+2]].my!=my)) d.push([x+2,y+2]);
-		//7µã°ë
+		//7.5
 		if ( y+2<= 9 && x-2>= 0 && !play.map[y+1][x-1] && (!com.mans[map[y+2][x-2]] || com.mans[map[y+2][x-2]].my!=my)) d.push([x-2,y+2]);
-		//1µã°ë
+		//1.5
 		if ( y-2>= 5 && x+2<= 8 && !play.map[y-1][x+1] && (!com.mans[map[y-2][x+2]] || com.mans[map[y-2][x+2]].my!=my)) d.push([x+2,y-2]);
-		//10µã°ë
+		//10.5
 		if ( y-2>= 5 && x-2>= 0 && !play.map[y-1][x-1] && (!com.mans[map[y-2][x-2]] || com.mans[map[y-2][x-2]].my!=my)) d.push([x-2,y-2]);
 	}else{
-		//4µã°ë
+		//4.5
 		if ( y+2<= 4 && x+2<= 8 && !play.map[y+1][x+1] && (!com.mans[map[y+2][x+2]] || com.mans[map[y+2][x+2]].my!=my)) d.push([x+2,y+2]);
-		//7µã°ë
+		//7.5
 		if ( y+2<= 4 && x-2>= 0 && !play.map[y+1][x-1] && (!com.mans[map[y+2][x-2]] || com.mans[map[y+2][x-2]].my!=my)) d.push([x-2,y+2]);
-		//1µã°ë
+		//1.5
 		if ( y-2>= 0 && x+2<= 8 && !play.map[y-1][x+1] && (!com.mans[map[y-2][x+2]] || com.mans[map[y-2][x+2]].my!=my)) d.push([x+2,y-2]);
-		//10µã°ë
+		//10.5
 		if ( y-2>= 0 && x-2>= 0 && !play.map[y-1][x-1] && (!com.mans[map[y-2][x-2]] || com.mans[map[y-2][x-2]].my!=my)) d.push([x-2,y-2]);
 	}
 	return d;
 }
 
-//Ê¿
+//s
 com.bylaw.s = function (x,y,map,my){
 	var d=[];
-	if (my===1){ //ºì·½
-		//4µã°ë
+	if (my===1){ 
+		//4.5
 		if ( y+1<= 9 && x+1<= 5 && (!com.mans[map[y+1][x+1]] || com.mans[map[y+1][x+1]].my!=my)) d.push([x+1,y+1]);
-		//7µã°ë
+		//7.5
 		if ( y+1<= 9 && x-1>= 3 && (!com.mans[map[y+1][x-1]] || com.mans[map[y+1][x-1]].my!=my)) d.push([x-1,y+1]);
-		//1µã°ë
+		//1.5
 		if ( y-1>= 7 && x+1<= 5 && (!com.mans[map[y-1][x+1]] || com.mans[map[y-1][x+1]].my!=my)) d.push([x+1,y-1]);
-		//10µã°ë
+		//10.5
 		if ( y-1>= 7 && x-1>= 3 && (!com.mans[map[y-1][x-1]] || com.mans[map[y-1][x-1]].my!=my)) d.push([x-1,y-1]);
 	}else{
-		//4µã°ë
+		//4.5
 		if ( y+1<= 2 && x+1<= 5 && (!com.mans[map[y+1][x+1]] || com.mans[map[y+1][x+1]].my!=my)) d.push([x+1,y+1]);
-		//7µã°ë
+		//7.5
 		if ( y+1<= 2 && x-1>= 3 && (!com.mans[map[y+1][x-1]] || com.mans[map[y+1][x-1]].my!=my)) d.push([x-1,y+1]);
-		//1µã°ë
+		//1.5
 		if ( y-1>= 0 && x+1<= 5 && (!com.mans[map[y-1][x+1]] || com.mans[map[y-1][x+1]].my!=my)) d.push([x+1,y-1]);
-		//10µã°ë
+		//10.5
 		if ( y-1>= 0 && x-1>= 3 && (!com.mans[map[y-1][x-1]] || com.mans[map[y-1][x-1]].my!=my)) d.push([x-1,y-1]);
 	}
 	return d;
 		
 }
 
-//½«
+//j
 com.bylaw.j = function (x,y,map,my){
 	var d=[];
 	var isNull=(function (y1,y2){
@@ -496,33 +479,30 @@ com.bylaw.j = function (x,y,map,my){
 		return true;
 	})();
 	
-	if (my===1){ //ºì·½
-		//ÏÂ
+	if (my===1){
+		//down
 		if ( y+1<= 9  && (!com.mans[map[y+1][x]] || com.mans[map[y+1][x]].my!=my)) d.push([x,y+1]);
-		//ÉÏ
+		//up
 		if ( y-1>= 7 && (!com.mans[map[y-1][x]] || com.mans[map[y-1][x]].my!=my)) d.push([x,y-1]);
-		//ÀÏ½«¶ÔÀÏ½«µÄÇé¿ö
+		//face to face
 		if ( com.mans["j0"].x == com.mans["J0"].x &&isNull) d.push([com.mans["J0"].x,com.mans["J0"].y]);
 		
 	}else{
-		//ÏÂ
 		if ( y+1<= 2  && (!com.mans[map[y+1][x]] || com.mans[map[y+1][x]].my!=my)) d.push([x,y+1]);
-		//ÉÏ
 		if ( y-1>= 0 && (!com.mans[map[y-1][x]] || com.mans[map[y-1][x]].my!=my)) d.push([x,y-1]);
-		//ÀÏ½«¶ÔÀÏ½«µÄÇé¿ö
 		if ( com.mans["j0"].x == com.mans["J0"].x &&isNull) d.push([com.mans["j0"].x,com.mans["j0"].y]);
 	}
-	//ÓÒ
+	//right
 	if ( x+1<= 5  && (!com.mans[map[y][x+1]] || com.mans[map[y][x+1]].my!=my)) d.push([x+1,y]);
-	//×ó
+	//left
 	if ( x-1>= 3 && (!com.mans[map[y][x-1]] || com.mans[map[y][x-1]].my!=my))d.push([x-1,y]);
 	return d;
 }
 
-//ÅÚ
+//p
 com.bylaw.p = function (x,y,map,my){
 	var d=[];
-	//×ó²à¼ìË÷
+	//left search 
 	var n=0;
 	for (var i=x-1; i>= 0; i--){
 		if (map[y][i]) {
@@ -537,7 +517,7 @@ com.bylaw.p = function (x,y,map,my){
 			if(n==0) d.push([i,y])	
 		}
 	}
-	//ÓÒ²à¼ìË÷
+	//right search
 	var n=0;
 	for (var i=x+1; i <= 8; i++){
 		if (map[y][i]) {
@@ -552,7 +532,7 @@ com.bylaw.p = function (x,y,map,my){
 			if(n==0) d.push([i,y])	
 		}
 	}
-	//ÉÏ¼ìË÷
+	//up 
 	var n=0;
 	for (var i = y-1 ; i >= 0; i--){
 		if (map[i][x]) {
@@ -567,7 +547,7 @@ com.bylaw.p = function (x,y,map,my){
 			if(n==0) d.push([x,i])	
 		}
 	}
-	//ÏÂ¼ìË÷
+	//down 
 	var n=0;
 	for (var i = y+1 ; i<= 9; i++){
 		if (map[i][x]) {
@@ -585,22 +565,22 @@ com.bylaw.p = function (x,y,map,my){
 	return d;
 }
 
-//×ä
+//z 
 com.bylaw.z = function (x,y,map,my){
 	var d=[];
-	if (my===1){ //ºì·½
-		//ÉÏ
+	if (my===1){ 
+		//up
 		if ( y-1>= 0 && (!com.mans[map[y-1][x]] || com.mans[map[y-1][x]].my!=my)) d.push([x,y-1]);
-		//ÓÒ
+		//right
 		if ( x+1<= 8 && y<=4  && (!com.mans[map[y][x+1]] || com.mans[map[y][x+1]].my!=my)) d.push([x+1,y]);
-		//×ó
+		//left
 		if ( x-1>= 0 && y<=4 && (!com.mans[map[y][x-1]] || com.mans[map[y][x-1]].my!=my))d.push([x-1,y]);
 	}else{
-		//ÏÂ
+		//down
 		if ( y+1<= 9  && (!com.mans[map[y+1][x]] || com.mans[map[y+1][x]].my!=my)) d.push([x,y+1]);
-		//ÓÒ
+		//right
 		if ( x+1<= 8 && y>=6  && (!com.mans[map[y][x+1]] || com.mans[map[y][x+1]].my!=my)) d.push([x+1,y]);
-		//×ó
+		//left
 		if ( x-1>= 0 && y>=6 && (!com.mans[map[y][x-1]] || com.mans[map[y][x-1]].my!=my))d.push([x-1,y]);
 	}
 	
@@ -608,8 +588,6 @@ com.bylaw.z = function (x,y,map,my){
 }
 
 com.value = {
-	
-	//³µ¼ÛÖµ
 	c:[
 		[206, 208, 207, 213, 214, 213, 207, 208, 206],
 		[206, 212, 209, 216, 233, 216, 209, 212, 206],
@@ -623,8 +601,7 @@ com.value = {
 		[200, 208, 206, 212, 200, 212, 206, 208, 200],
 		[194, 206, 204, 212, 200, 212, 204, 206, 194]
 	],
-	
-	//Âí¼ÛÖµ
+
 	m:[
 		[90, 90, 90, 96, 90, 96, 90, 90, 90],
 		[90, 96,103, 97, 94, 97,103, 96, 90],
@@ -639,7 +616,6 @@ com.value = {
 		[88, 85, 90, 88, 90, 88, 90, 85, 88]
 	],
 	
-	//Ïà¼ÛÖµ
 	x:[
 		[0, 0,20, 0, 0, 0,20, 0, 0],
 		[0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -654,7 +630,6 @@ com.value = {
 		[0, 0,20, 0, 0, 0,20, 0, 0]
 	],
 	
-	//Ê¿¼ÛÖµ
 	s:[
 		[0, 0, 0,20, 0,20, 0, 0, 0],
 		[0, 0, 0, 0,23, 0, 0, 0, 0],
@@ -669,7 +644,6 @@ com.value = {
 		[0, 0, 0,20, 0,20, 0, 0, 0]
 	],
 	
-	//½±¼ÛÖµ
 	j:[
 		[0, 0, 0, 8888, 8888, 8888, 0, 0, 0],
 		[0, 0, 0, 8888, 8888, 8888, 0, 0, 0], 
@@ -684,7 +658,6 @@ com.value = {
 		[0, 0, 0, 8888, 8888, 8888, 0, 0, 0]
 	],
 	
-	//ÅÚ¼ÛÖµ
 	p:[
 		
 		[100, 100,  96, 91,  90, 91,  96, 100, 100],
@@ -700,7 +673,6 @@ com.value = {
 		[ 96,  96,  97, 99,  99, 99,  97,  96,  96]
 	],
 	
-	//×ä¼ÛÖµ
 	z:[
 		[ 9,  9,  9, 11, 13, 11,  9,  9,  9],
 		[19, 24, 34, 42, 44, 42, 34, 24, 19],
@@ -716,7 +688,7 @@ com.value = {
 	]
 }
 
-//ºÚ×ÓÎªºì×Ö¼ÛÖµÎ»ÖÃµÄµ¹ÖÃ
+//black value is red value reverse
 com.value.C = com.arr2Clone(com.value.c).reverse();
 com.value.M = com.arr2Clone(com.value.m).reverse();
 com.value.X = com.value.x;
@@ -725,28 +697,26 @@ com.value.J = com.value.j;
 com.value.P = com.arr2Clone(com.value.p).reverse();
 com.value.Z = com.arr2Clone(com.value.z).reverse();
 
-//Æå×ÓÃÇ
 com.args={
-	//ºì×Ó ÖÐÎÄ/Í¼Æ¬µØÖ·/ÕóÓª/È¨ÖØ
-	'c':{text:"³µ", img:'r_c', my:1 ,bl:"c", value:com.value.c},
-	'm':{text:"Âí", img:'r_m', my:1 ,bl:"m", value:com.value.m},
-	'x':{text:"Ïà", img:'r_x', my:1 ,bl:"x", value:com.value.x},
-	's':{text:"ÊË", img:'r_s', my:1 ,bl:"s", value:com.value.s},
-	'j':{text:"½«", img:'r_j', my:1 ,bl:"j", value:com.value.j},
-	'p':{text:"ÅÚ", img:'r_p', my:1 ,bl:"p", value:com.value.p},
-	'z':{text:"±ø", img:'r_z', my:1 ,bl:"z", value:com.value.z},
+	//red name img player value
+	'c':{text:"¿", img:'r_c', my:1 ,bl:"c", value:com.value.c},
+	'm':{text:"¿", img:'r_m', my:1 ,bl:"m", value:com.value.m},
+	'x':{text:"¿", img:'r_x', my:1 ,bl:"x", value:com.value.x},
+	's':{text:"¿", img:'r_s', my:1 ,bl:"s", value:com.value.s},
+	'j':{text:"¿", img:'r_j', my:1 ,bl:"j", value:com.value.j},
+	'p':{text:"¿", img:'r_p', my:1 ,bl:"p", value:com.value.p},
+	'z':{text:"¿", img:'r_z', my:1 ,bl:"z", value:com.value.z},
 	
-	//À¶×Ó
-	'C':{text:"Ü‡", img:'b_c', my:-1 ,bl:"c", value:com.value.C},
-	'M':{text:"ñR", img:'b_m', my:-1 ,bl:"m", value:com.value.M},
-	'X':{text:"Ïó", img:'b_x', my:-1 ,bl:"x", value:com.value.X},
-	'S':{text:"Ê¿", img:'b_s', my:-1 ,bl:"s", value:com.value.S},
-	'J':{text:"Ë§", img:'b_j', my:-1 ,bl:"j", value:com.value.J},
-	'P':{text:"ÅÚ", img:'b_p', my:-1 ,bl:"p", value:com.value.P},
-	'Z':{text:"×ä", img:'b_z', my:-1 ,bl:"z", value:com.value.Z}
+	'C':{text:"¿", img:'b_c', my:-1 ,bl:"c", value:com.value.C},
+	'M':{text:"¿", img:'b_m', my:-1 ,bl:"m", value:com.value.M},
+	'X':{text:"¿", img:'b_x', my:-1 ,bl:"x", value:com.value.X},
+	'S':{text:"¿", img:'b_s', my:-1 ,bl:"s", value:com.value.S},
+	'J':{text:"¿", img:'b_j', my:-1 ,bl:"j", value:com.value.J},
+	'P':{text:"¿", img:'b_p', my:-1 ,bl:"p", value:com.value.P},
+	'Z':{text:"¿", img:'b_z', my:-1 ,bl:"z", value:com.value.Z}
 };
 
-com.class = com.class || {} //Àà
+com.class = com.class || {} 
 com.class.Man = function (key, x, y){
 	this.pater = key.slice(0,1);
 	var o=com.args[this.pater]
@@ -758,7 +728,7 @@ com.class.Man = function (key, x, y){
 	this.value = o.value;
 	this.isShow = true;
 	this.alpha = 1;
-	this.ps = []; //×Åµã
+	this.ps = []; 
 	
 	this.show = function (){
 		if (this.isShow) {
@@ -813,4 +783,3 @@ com.class.Dot = function (img, x, y){
 }
 
 com.init();
-

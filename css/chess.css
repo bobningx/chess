@@ -1,4 +1,3 @@
-@charset "gb2312";
 body{  font-size: 12px; line-height: 150%; }
 .box { margin:0 auto; width:460px; position: relative; }
 .chess_left {float:left; text-align:center }
@@ -11,5 +10,4 @@ body{  font-size: 12px; line-height: 150%; }
 .bill_box li:active { cursor:pointer; background: #fff; }
 #billList{ margin-top:20px}
 .bn_box{display:none}
-.download{ margin-top:30px}
 

@@ -1,28 +1,26 @@
-/*! 一叶孤舟 | qq:28701884 | 欢迎指教 */
-
 var play = play||{};
 
 play.init = function (){
 	
-	play.my				=	1;				//玩家方
-	play.map 			=	com.arr2Clone (com.initMap);		//初始化棋盘
-	play.nowManKey		=	false;			//现在要操作的棋子
-	play.pace 			=	[];				//记录每一步
-	play.isPlay 		=	true ;			//是否能走棋
+	play.my				=	1;				
+	play.map 			=	com.arr2Clone (com.initMap);		
+	play.nowManKey		=	false;			
+	play.pace 			=	[];				//move recode 
+    play.isPlay 		=	true ;			//can move on
 	play.mans 			=	com.mans;
 	play.bylaw 			= 	com.bylaw;
 	play.show 			= 	com.show;
 	play.showPane 		= 	com.showPane;
-	play.isOffensive	=	true;			//是否先手
-	play.depth			=	play.depth || 3;				//搜索深度
+	play.isOffensive	=	true;			
+	play.depth			=	play.depth || 3;	//search deep
 	
-	play.isFoul			=	false;	//是否犯规长将
+	play.isFoul			=	false;	//long check
 	
 	
 	
-	com.pane.isShow		=	 false;			//隐藏方块
+	com.pane.isShow		=	 false;
 	
-	//初始化棋子
+	//init pieces
 	for (var i=0; i<play.map.length; i++){
 		for (var n=0; n<play.map[i].length; n++){
 			var key = play.map[i][n];
@@ -35,7 +33,7 @@ play.init = function (){
 	}
 	play.show();
 	
-	//绑定点击事件
+    	
 	com.canvas.addEventListener("click",play.clickCanvas)
 	//clearInterval(play.timer);
 	//com.get("autoPlay").addEventListener("click", function(e) {
@@ -82,10 +80,9 @@ play.init = function (){
 
 
 
-//悔棋
 play.regret = function (){
 	var map  = com.arr2Clone(com.initMap);
-	//初始化所有棋子
+	//init pieces
 	for (var i=0; i<map.length; i++){
 		for (var n=0; n<map[i].length; n++){
 			var key = map[i][n];
@@ -132,7 +129,6 @@ play.regret = function (){
 
 
 
-//点击棋盘事件
 play.clickCanvas = function (e){
 	if (!play.isPlay) return false;
 	var key = play.getClickMan(e);
@@ -146,15 +142,15 @@ play.clickCanvas = function (e){
 	}else {
 		play.clickPoint(x,y);	
 	}
-	play.isFoul = play.checkFoul();//检测是不是长将
+	play.isFoul = play.checkFoul();
 }
 
-//点击棋子，两种情况，选中或者吃子
+
 play.clickMan = function (key,x,y){
 	var man = com.mans[key];
-	//吃子
+	//capture
 	if (play.nowManKey&&play.nowManKey != key && man.my != com.mans[play.nowManKey ].my){
-		//man为被吃掉的棋子
+		//man is the pieces to be capture
 		if (play.indexOfPs(com.mans[play.nowManKey].ps,[x,y])){
 			man.isShow = false;
 			var pace=com.mans[play.nowManKey].x+""+com.mans[play.nowManKey].y
@@ -171,28 +167,28 @@ play.clickMan = function (key,x,y){
 			com.pane.isShow = false;
 			com.dot.dots = [];
 			com.show()
-			com.get("clickAudio").play();
+//			com.get("clickAudio").play();
 			setTimeout("play.AIPlay()",500);
 			if (key == "j0") play.showWin (-1);
 			if (key == "J0") play.showWin (1);
 		}
-	// 选中棋子
+	//selected
 	}else{
 		if (man.my===1){
 			if (com.mans[play.nowManKey]) com.mans[play.nowManKey].alpha = 1 ;
 			man.alpha = 0.6;
 			com.pane.isShow = false;
 			play.nowManKey = key;
-			com.mans[key].ps = com.mans[key].bl(); //获得所有能着点
+			com.mans[key].ps = com.mans[key].bl(); //get all position can move to
 			com.dot.dots = com.mans[key].ps
 			com.show();
 			//com.get("selectAudio").start(0);
-			com.get("selectAudio").play();
+			//com.get("selectAudio").play();
 		}
 	}
 }
 
-//点击着点
+//target position to move
 play.clickPoint = function (x,y){
 	var key=play.nowManKey;
 	var man=com.mans[key];
@@ -210,18 +206,16 @@ play.clickPoint = function (x,y){
 			play.nowManKey = false;
 			com.dot.dots = [];
 			com.show();
-			com.get("clickAudio").play();
+//			com.get("clickAudio").play();
 			setTimeout("play.AIPlay()",500);
 		}else{
-			//alert("不能这么走哦！")	
 		}
 	}
 	
 }
 
-//Ai自动走棋
+//Ai auto move
 play.AIPlay = function (){
-	//return
 	play.my = -1 ;
 	var pace=AI.init(play.pace.join(""))
 	if (!pace) {
@@ -238,12 +232,12 @@ play.AIPlay = function (){
 	}else {
 		play.AIclickPoint(pace[2],pace[3]);	
 	}
-	com.get("clickAudio").play();
+//	com.get("clickAudio").play();
 	
 	
 }
 
-//检查是否长将
+// detect long check
 play.checkFoul = function(){
 	var p=play.pace;
 	var len=parseInt(p.length,10);
@@ -257,7 +251,7 @@ play.checkFoul = function(){
 
 play.AIclickMan = function (key,x,y){
 	var man = com.mans[key];
-	//吃子
+	//capture
 	man.isShow = false;
 	delete play.map[com.mans[play.nowManKey].y][com.mans[play.nowManKey].x];
 	play.map[y][x] = play.nowManKey;
@@ -299,7 +293,6 @@ play.indexOfPs = function (ps,xy){
 	
 }
 
-//获得点击的着点
 play.getClickPoint = function (e){
 	var domXY = com.getDomXY(com.canvas);
 	var x=Math.round((e.pageX-domXY.x-com.pointStartX-20)/com.spaceX)
@@ -307,7 +300,6 @@ play.getClickPoint = function (e){
 	return {"x":x,"y":y}
 }
 
-//获得棋子
 play.getClickMan = function (e){
 	var clickXY=play.getClickPoint(e);
 	var x=clickXY.x;
@@ -319,9 +311,9 @@ play.getClickMan = function (e){
 play.showWin = function (my){
 	play.isPlay = false;
 	if (my===1){
-		alert("恭喜你，你赢了！");
+		alert("you win");
 	}else{
-		alert("很遗憾，你输了！");
+		alert("you fail");
 	}
 }
 

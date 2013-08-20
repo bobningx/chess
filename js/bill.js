@@ -1,4 +1,10 @@
-/*! 一叶孤舟 | qq:28701884 | 欢迎指教 */
+/**
+ * ChinaChess - in html5
+ * http://www.jnzo.com/chess/
+ * @ author 一叶孤舟
+ * @ mail itlwei@163.com
+ * @ QQ 28701884
+ */
 
 var bill = bill || {};
 
